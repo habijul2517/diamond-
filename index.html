@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এলিট পাস ও ডায়মন্ড গিভঅ্যাওয়ে</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- কালারফুল এবং গেমিং UI --- */
+        :root {
+            --primary: #ff0055;
+            --secondary: #00e5ff;
+            --bg: #0f0c29;
+            --card-bg: #24243e;
+            --text: #ffffff;
+            --gradient: linear-gradient(45deg, #ff0055, #ff9f43);
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        }
+
+        /* হেডার */
+        .header {
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 3px solid var(--primary);
+        }
+        .header img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.9;
+        }
+        .header-title {
+            background: var(--gradient);
+            padding: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.5);
+        }
+
+        /* ইনপুট সেকশন */
+        .content { padding: 20px; }
+        
+        .input-box {
+            background: var(--card-bg);
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #ccc; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background: #121212;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+            outline: none;
+            border-left: 4px solid var(--primary);
+            box-sizing: border-box;
+        }
+
+        /* ডায়মন্ড গ্রিড */
+        .diamond-grid { display: flex; gap: 10px; justify-content: space-between; }
+        .d-card {
+            background: #1f1c2c;
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            width: 30%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .d-card:hover { transform: translateY(-5px); }
+        .d-card.active {
+            border-color: var(--secondary);
+            background: rgba(0, 229, 255, 0.1);
+            box-shadow: 0 0 15px var(--secondary);
+        }
+
+        /* প্রগ্রেস বার */
+        .progress-area { margin: 25px 0; }
+        .progress-track {
+            background: #333;
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #555;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00e5ff, #00ff88);
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* বাটন */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        
+        .btn-whatsapp { background: #25D366; color: white; box-shadow: 0 4px 0 #128C7E; }
+        .btn-messenger { background: #0084FF; color: white; box-shadow: 0 4px 0 #0066CC; }
+        .btn-facebook { background: #1877F2; color: white; box-shadow: 0 4px 0 #0E5A8A; }
+        
+        .btn:active { transform: translateY(4px); box-shadow: none; }
+        
+        .btn-complete { background: #555; color: #aaa; cursor: not-allowed; }
+        .btn-complete.unlocked {
+            background: var(--gradient);
+            color: white;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+        }
+
+        /* কমেন্ট সেকশন */
+        .comment-section {
+            background: #fff;
+            color: #333;
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .comment-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        .comment-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+        .c-content h4 { margin: 0; font-size: 14px; color: #365899; }
+        .c-content p { margin: 2px 0; font-size: 13px; }
+        .c-meta { font-size: 11px; color: #888; }
+
+        /* মডাল (নোটিশ) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 15px;
+            width: 85%;
+            text-align: center;
+            border: 2px solid var(--secondary);
+            position: relative;
+        }
+        .timer-display {
+            font-size: 30px;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        /* এনিমেশন */
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 0, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
+        
+        .spinner {
+            border: 4px solid #f3f3f3; border-top: 4px solid var(--primary);
+            border-radius: 50%; width: 20px; height: 20px;
+            animation: spin 1s linear infinite; display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="https://i.supaimg.com/2fd5424a-9f20-4ccb-ac8d-d5e07a42aafa.png" alt="FF Banner">
+        <div class="header-title">🔥 ফ্রি ফায়ার সিজন গিভঅ্যাওয়ে 🔥</div>
+    </div>
+
+    <div class="content">
+        <div class="input-box">
+            <label><i class="fas fa-id-card"></i> গেম ইউআইডি (UID)</label>
+            <input type="number" id="uidInput" placeholder="আপনার UID লিখুন (যেমন: 284***)">
+            
+            <label><i class="fas fa-gem"></i> প্যাকেজ সিলেক্ট করুন</label>
+            <div class="diamond-grid">
+                <div class="d-card" onclick="selectPack(this, 100)">100 💎</div>
+                <div class="d-card active" onclick="selectPack(this, 200)">200 💎</div>
+                <div class="d-card" onclick="selectPack(this, 300)">300 💎</div>
+            </div>
+        </div>
+
+        <div class="input-box" style="border-color: #00e5ff;">
+            <h3 style="margin: 0; color: #00e5ff; text-align: center;"><i class="fas fa-share-alt"></i> শেয়ার টাস্ক</h3>
+            <p style="font-size: 13px; color: #aaa; text-align: center;">ডায়মন্ড আনলক করতে নিচের বাটনে ক্লিক করে বন্ধুদের শেয়ার করুন।</p>
+            
+            <div class="progress-area">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar">0%</div>
+                </div>
+            </div>
+
+            <button class="btn btn-whatsapp" id="shareBtnWA" onclick="handleShare('whatsapp')">
+                <span class="spinner" id="loaderWA"></span>
+                <span id="btnTextWA"><i class="fab fa-whatsapp"></i> WhatsApp-এ শেয়ার</span>
+            </button>
+
+            <button class="btn btn-messenger" onclick="handleShare('messenger')">
+                <i class="fab fa-facebook-messenger"></i> Messenger-এ শেয়ার
+            </button>
+
+            <button class="btn btn-facebook" onclick="handleShare('facebook')">
+                <i class="fab fa-facebook"></i> Facebook-এ পোস্ট
+            </button>
+            
+            <p id="shareStatus" style="font-size: 12px; color: yellow; display:none; text-align: center; margin-top: 10px;">⚠️ শেয়ার ভেরিফাই হচ্ছে...</p>
+        </div>
+
+        <button id="finalBtn" class="btn btn-complete" onclick="openModal()">
+            <i class="fas fa-gift"></i> ডায়মন্ড ক্লেইম করুন
+        </button>
+
+    </div>
+
+    <div class="comment-section">
+        <div class="comment-header">User Comments (2,845)</div>
+        <div id="commentsList"></div>
+        <button style="width:100%; padding:10px; background:#eee; border:none; border-radius:5px; margin-top:10px;">Load more comments...</button>
+    </div>
+</div>
+
+<div class="modal" id="noticeModal">
+    <div class="modal-box">
+        <h2 style="color: var(--secondary);">⚠ শেষ ধাপ!</h2>
+        <p style="font-size: 14px; color: #ddd;">বটের আক্রমণ ঠেকাতে আপনাকে ভেরিফাই করতে হবে।</p>
+        
+        <div style="background: #2a2a2a; padding: 10px; border-radius: 5px; margin: 15px 0; text-align: left; font-size: 13px;">
+            ১. নিচের বাটনে ক্লিক করুন।<br>
+            ২. পেজটিতে <b>২ মিনিট</b> অপেক্ষা করুন অথবা একটি অ্যাপ ইনস্টল করুন।<br>
+            ৩. ব্যাক করে এসে ডায়মন্ড নিন।
+        </div>
+
+        <a href="https://google.com" target="_blank" onclick="startCountdown()" class="btn" style="background: var(--primary); text-decoration: none; color: white;">
+            এখনই ভেরিফাই করুন
+        </a>
+    </div>
+</div>
+
+<div class="modal" id="timerModal">
+    <div class="modal-box">
+        <div id="processingState">
+            <h3>⏳ ভেরিফিকেশন চলছে...</h3>
+            <p>দয়া করে পেজটি কাটবেন না।</p>
+            <div class="timer-display" id="countDown">02:00</div>
+            <p style="font-size: 12px; color: #888;">Checking Server Response...</p>
+        </div>
+        
+        <div id="successState" style="display: none;">
+            <i class="fas fa-check-circle" style="font-size: 50px; color: #00ff88; margin-bottom: 10px;"></i>
+            <h2 style="color: #00ff88;">অভিনন্দন!</h2>
+            <p>আপনার রিকোয়েস্ট সফল হয়েছে।</p>
+            <p style="font-size: 13px; color: #ccc;">আগামী ২৪ ঘন্টার মধ্যে আপনার আইডিতে ডায়মন্ড পৌঁছে যাবে।</p>
+            <button onclick="location.reload()" style="padding: 10px 20px; background: #333; color: white; border: none; border-radius: 5px; margin-top: 10px;">বন্ধ করুন</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- কনফিগারেশন ---
+    let shareCount = 0;
+    const targetShare = 5; // ৫ বার শেয়ার করলেই হবে (সহজ করার জন্য)
+    const progressBar = document.getElementById('progressBar');
+    const finalBtn = document.getElementById('finalBtn');
+    const statusMsg = document.getElementById('shareStatus');
+
+    // --- কার্ড সিলেকশন ---
+    function selectPack(card, amount) {
+        document.querySelectorAll('.d-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+    }
+
+    // --- শেয়ার লজিক (Messenger Update) ---
+    function handleShare(platform) {
+        if (shareCount >= targetShare) return;
+
+        // লোডার দেখানো (শুধু WhatsApp এর জন্য রাখা হয়েছে ভিজুয়াল এফেক্টের জন্য)
+        const loader = document.getElementById('loader' + (platform === 'whatsapp' ? 'WA' : ''));
+        const btnText = document.getElementById('btnText' + (platform === 'whatsapp' ? 'WA' : ''));
+
+        if (platform === 'whatsapp' && loader && btnText) {
+            loader.style.display = 'inline-block';
+            btnText.innerText = "Checking...";
+        }
+
+        let shareUrl = '';
+        const pageLink = encodeURIComponent(window.location.href);
+        const shareText = encodeURIComponent("ফ্রি ফায়ার সিজন গিভঅ্যাওয়ে! ২০০ ডায়মন্ড একদম ফ্রি! 🎁 আমি পেয়েছি, তুইও নে: " + window.location.href);
+
+        // --- প্ল্যাটফর্ম অনুযায়ী লিংক তৈরি ---
+        
+        if (platform === 'whatsapp') {
+            shareUrl = "whatsapp://send?text=" + shareText;
+        } 
+        else if (platform === 'messenger') {
+            // মোবাইল ডিভাইস ডিটেক্ট করা
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // মোবাইলে সরাসরি অ্যাপ ওপেন করার স্কিম
+                // 'fb-messenger://share/?link=' অনেক সময় কাজ করে
+                shareUrl = "fb-messenger://share?link=" + pageLink; 
+            } else {
+                // পিসির জন্য ওয়েব ভার্সন
+                shareUrl = "https://www.facebook.com/dialog/send?link=" + pageLink + "&app_id=2914744191&redirect_uri=" + pageLink;
+            }
+        } 
+        else if (platform === 'facebook') {
+            shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + pageLink;
+        }
+
+        // লিংক ওপেন করা
+        // Messenger অ্যাপ ওপেন করার জন্য একটু ডিলে দিয়ে উইন্ডো লোকেশন চেইঞ্জ করা বেটার
+        setTimeout(() => {
+            if(platform === 'messenger' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)){
+                 window.location.href = shareUrl;
+            } else {
+                 window.open(shareUrl, "_blank");
+            }
+        }, 300);
+
+        // ফেক প্রগ্রেস আপডেট
+        setTimeout(() => {
+            shareCount++;
+            updateUI();
+
+            if (platform === 'whatsapp' && loader && btnText) {
+                loader.style.display = 'none';
+                btnText.innerHTML = '<i class="fab fa-whatsapp"></i> WhatsApp-এ শেয়ার';
+            }
+
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = `সফল! ${shareCount} বার শেয়ার সম্পন্ন। আরও ${targetShare - shareCount} বার বাকি।`;
+            statusMsg.style.color = '#00ff88';
+
+        }, 3000); // ৩ সেকেন্ড পর কাউন্ট হবে
+    }
+
+    function updateUI() {
+        let percent = (shareCount / targetShare) * 100;
+        if(percent > 100) percent = 100;
+        
+        progressBar.style.width = percent + "%";
+        progressBar.innerText = Math.floor(percent) + "%";
+
+        if (shareCount >= targetShare) {
+            finalBtn.classList.remove('btn-complete');
+            finalBtn.classList.add('unlocked');
+            finalBtn.innerHTML = '<i class="fas fa-check"></i> কাজ সম্পন্ন! ক্লিক করুন';
+            statusMsg.style.display = 'none';
+        }
+    }
+
+    // --- মডাল এবং টাইমার ---
+    function openModal() {
+        if (shareCount >= targetShare) {
+            document.getElementById('noticeModal').style.display = 'flex';
+        } else {
+            alert("আগে ৫ জন বন্ধুকে শেয়ার করে প্রগ্রেস বার ১০০% করুন!");
+        }
+    }
+
+    function startCountdown() {
+        document.getElementById('noticeModal').style.display = 'none';
+        document.getElementById('timerModal').style.display = 'flex';
+        
+        let duration = 120; // ১২০ সেকেন্ড (২ মিনিট)
+        let timer = setInterval(() => {
+            let min = Math.floor(duration / 60);
+            let sec = duration % 60;
+            if(sec < 10) sec = "0" + sec;
+            
+            document.getElementById('countDown').innerText = "0" + min + ":" + sec;
+            
+            duration--;
+            
+            if (duration < 0) {
+                clearInterval(timer);
+                document.getElementById('processingState').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+            }
+        }, 1000);
+    }
+
+    // --- ডামি কমেন্ট জেনারেটর ---
+    const comments = [
+        { name: "Rahim Gaming", text: "ভাই বিশ্বাসই করতে পারতেছি না ২০০ ডায়মন্ড পাইছি!!", time: "2 min ago" },
+        { name: "FF Lover BD", text: "থ্যাংকস ভাইয়া, আমার আইডিতে চলে আসছে।", time: "5 min ago" },
+        { name: "Pro Roki", text: "শেয়ার করছিলাম ভাবছিলাম ভুয়া, কিন্তু কাজ হইছে।", time: "7 min ago" },
+        { name: "Dark Hunter", text: "ওপপপ! ১০০% রিয়েল। সবাই ট্রাই করো।", time: "10 min ago" },
+        { name: "Gaming Tamim", text: "ভাই শেয়ার দিছি, এখন ওয়েট করতেছি।", time: "15 min ago" }
+    ];
+
+    const commentList = document.getElementById('commentsList');
+    
+    comments.forEach(c => {
+        let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=random&color=fff&size=40`;
+        let html = `
+            <div class="comment-row">
+                <img src="${avatarUrl}" class="avatar" alt="User">
+                <div class="c-content">
+                    <h4>${c.name}</h4>
+                    <p>${c.text}</p>
+                    <div class="c-meta">Like · Reply · <span>${c.time}</span></div>
+                </div>
+            </div>
+        `;
+        commentList.innerHTML += html;
+    });
+
+</script>
+
+</body>
+</html>
